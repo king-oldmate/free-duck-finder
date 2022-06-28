@@ -2,11 +2,11 @@ const mongoose = require("mongoose");
 
 const duckSchema = mongoose.Schema({
   longitude: {
-    type: Number,
+    type: String,
     required: [true, "Please input longitude"],
   },
   latitude: {
-    type: Number,
+    type: String,
     required: [true, "Please input latitude"],
   },
 });

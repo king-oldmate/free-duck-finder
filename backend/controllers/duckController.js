@@ -5,6 +5,7 @@ const Duck = require("../models/duckModel");
 // @desc    get ducks
 // @route   GET /api/ducks
 // @access  Public
+
 const getDucks = asyncHandler(async (req, res) => {
   const ducks = await Duck.find();
   res.status(200).json(ducks);
@@ -14,12 +15,13 @@ const getDucks = asyncHandler(async (req, res) => {
 // @route   POST /api/ducks
 // @access  Public
 const setDuck = asyncHandler(async (req, res) => {
-  if (!req.body.location) {
+  if (!req.body.longitude || !req.body.latitude) {
     res.status(400);
     throw new Error("Please specify a location ");
   }
   const duck = await Duck.create({
-    location: req.body.location,
+    longitude: req.body.longitude,
+    latitude: req.body.latitude,
   });
   res.status(200).json(duck);
 });
