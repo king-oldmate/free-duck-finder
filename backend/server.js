@@ -4,7 +4,7 @@ const dotenv = require("dotenv").config();
 const connectDB = require("./config/db");
 const port = process.env.PORT || 8000;
 
-console.log(`shalom`.bgWhite.blue.bold);
+console.log(`Hello Joe`.blue.bold);
 
 connectDB();
 

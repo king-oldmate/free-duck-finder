@@ -1,4 +1,8 @@
 import React, { useState, useEffect } from "react";
+import MapView from "./components/MapView";
+import "mapbox-gl/dist/mapbox-gl.css";
+
+console.log(process.env.REACT_APP_TOKEN);
 
 const App = () => {
   const [coordinate, setCoordinate] = useState([]);
@@ -20,6 +24,7 @@ const App = () => {
 
   return (
     <div>
+      <MapView />
       {coordinate.map((item, index) => {
         return <p key={index}>{item}</p>;
       })}
