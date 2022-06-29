@@ -6,6 +6,7 @@ const MapView = () => {
   const [coordinateList, setCoordinateList] = useState([]);
 
   useEffect(() => {
+    // removing this variable declaration breaks everything and I don't know why
     let ponds;
     fetch("http://localhost:5000/api/ducks")
       .then((response) => response.json())
@@ -52,7 +53,7 @@ const MapView = () => {
         initialViewState={{
           longitude: 151.1,
           latitude: -33.6,
-          zoom: 14,
+          zoom: 10,
         }}
         style={{ width: 600, height: 400 }}
         mapStyle='mapbox://styles/mapbox/streets-v9'
