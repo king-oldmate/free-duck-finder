@@ -1,9 +1,12 @@
-import React, { useState, useMemo, useEffect } from "react";
-import Map, { Marker } from "react-map-gl";
-import pin from "./pin.png";
+import React, { useState, useMemo, useEffect, useRef } from "react";
+import { render } from "react-dom";
+import Map, { Marker, MapRef } from "react-map-gl";
+import { useGeolocated } from "react-geolocated";
+import Pin from "./Pin";
 
 const MapView = () => {
   const [coordinateList, setCoordinateList] = useState([]);
+  const mapRef = React.useRef();
 
   useEffect(() => {
     // removing this variable declaration breaks everything and I don't know why
@@ -14,6 +17,14 @@ const MapView = () => {
       .then((ponds) => setCoordinateList(ponds));
   }, []);
 
+  // const initialViewState = {
+  //   longitude: ,
+  //   latitude: ,
+  //   zoom: 10,
+  //   pictch: 0,
+  //   bearing:0 ,
+  // }
+
   function getLocations(data) {
     let pondList = data.map((pond) => {
       const pondCoordinates = [pond.longitude, pond.latitude];
@@ -21,8 +32,6 @@ const MapView = () => {
     });
     return pondList;
   }
-
-  console.log(coordinateList);
 
   const pins = useMemo(
     () =>
@@ -35,17 +44,21 @@ const MapView = () => {
             latitude={latitude}
             anchor='bottom'
           >
-            <img
-              src={pin}
-              width='10px'
-              height='15px'
-              alt={`${longitude}, ${latitude}`}
-            />
+            <Pin />
           </Marker>
         );
       }),
     [coordinateList]
   );
+
+  function getCurrentLocation() {}
+  const { coords, isGeolocationAvailable, isGeolocationEnabled } =
+    useGeolocated({
+      positionOptions: {
+        enableHighAccuracy: false,
+      },
+      userDecisionTimeout: 5000,
+    });
 
   return (
     <>
@@ -55,13 +68,36 @@ const MapView = () => {
           latitude: -33.6,
           zoom: 10,
         }}
-        style={{ width: 600, height: 400 }}
-        mapStyle='mapbox://styles/mapbox/streets-v9'
+        style={{ width: "100%", height: 400 }}
+        mapStyle='mapbox://styles/mapbox/streets-v8'
         mapboxAccessToken={process.env.REACT_APP_TOKEN}
       >
         {/* get an array of locations and map through them to place multiple markers */}
         {pins}
       </Map>
+      <button className='' onClick=''>
+        Get Location
+      </button>
+      {!isGeolocationAvailable ? (
+        <div>Your browser does not support Geolocation</div>
+      ) : !isGeolocationEnabled ? (
+        <div>Geolocation is not enabled</div>
+      ) : coords ? (
+        <table>
+          <tbody>
+            <tr>
+              <td>latitude</td>
+              <td>{coords.latitude}</td>
+            </tr>
+            <tr>
+              <td>longitude</td>
+              <td>{coords.longitude}</td>
+            </tr>
+          </tbody>
+        </table>
+      ) : (
+        <div>Getting the location data&hellip; </div>
+      )}
     </>
   );
 };

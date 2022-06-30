@@ -1,5 +1,7 @@
 const mongoose = require("mongoose");
 
+// models need to be updated in fdfRoutes.js and duckController.js if modified
+
 const duckSchema = mongoose.Schema({
   longitude: {
     type: String,
