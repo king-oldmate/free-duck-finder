@@ -21,6 +21,8 @@ import Map, {
 
 import "mapbox-gl/dist/mapbox-gl.css";
 
+import DuckData from "./DuckData";
+
 const MAPBOX_TOKEN = process.env.REACT_APP_TOKEN;
 
 const geojson = {
@@ -66,23 +68,6 @@ const MapBasic = () => {
 
   const mapBox = useRef(null);
   const markerCenter = useRef();
-  //   const onButtonClick = () => {
-  //     mapBox.current;
-  //   };
-  //   const onMarkerDrag = (lngLat) => {
-  //     console.log(lngLat);
-  //   };
-
-  //   const onDragEnd = (lngLat) => {
-  //     setMarker({ longitude: lngLat.lng, latitude: lngLat.lat });
-  //   };
-  //   const onDrag = () => {};
-
-  //   const onDragEnd = () => {
-  //     const markerElement = markerCenter.current;
-  //     const longLat = markerCenter.longitude;
-  //     console.log(markerElement.longitude);
-  //   };
 
   return (
     <>
@@ -132,6 +117,7 @@ const MapBasic = () => {
       <p>
         new long: {marker.longitude}, new lat: {marker.latitude}
       </p>
+      <DuckData coordinates={marker} />
     </>
   );
 };

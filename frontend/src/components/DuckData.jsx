@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 
-const DuckData = () => {
+const DuckData = ({ coordinates }) => {
+  // GET request
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -24,6 +25,28 @@ const DuckData = () => {
 
   console.log(data);
 
+  // POST request
+  const [post, setPost] = useState(null);
+
+  useEffect(() => {
+    axios.get(`http://localhost:5000/api/ducks`).then((response) => {
+      setPost(response.data);
+    });
+  }, []);
+
+  function createPost() {
+    // https://github.com/axios/axios#using-applicationx-www-form-urlencoded-format
+    const location = new URLSearchParams({
+      longitude: coordinates.longitude,
+      latitude: coordinates.latitude,
+    });
+    console.log(location);
+    location.append("extraparam", "value");
+    axios.post(`http://localhost:5000/api/ducks`, location).then((response) => {
+      console.log(response);
+    });
+  }
+
   return (
     <div>
       <h1>Duck API</h1>
@@ -33,14 +56,14 @@ const DuckData = () => {
       )}
       <ul>
         {data &&
-          data.map(({ longitude, latitude, _id, index }) => (
-            <li key={index}>
-              <h3>{_id}</h3>
-              <h3>{longitude}</h3>
-              <h3>{latitude}</h3>
+          data.map(({ location, _id, index }) => (
+            <li key={_id}>
+              <h3>{location.coordinates[0]}</h3>
+              <h3>{location.coordinates[1]}</h3>
             </li>
           ))}
       </ul>
+      <button onClick={createPost}>Add current location?</button>
     </div>
   );
 };
