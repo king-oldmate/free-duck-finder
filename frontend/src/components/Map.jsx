@@ -1,5 +1,12 @@
 import * as React from "react";
-import { useState, useEffect, useMemo, useCallback, useContext } from "react";
+import {
+  useState,
+  useEffect,
+  useMemo,
+  useCallback,
+  useContext,
+  useRef,
+} from "react";
 import { render } from "react-dom";
 import Map, {
   Source,
@@ -8,6 +15,8 @@ import Map, {
   useMap,
   MapProvider,
   GeolocateControl,
+  MarkerDragEvent,
+  LngLat,
 } from "react-map-gl";
 
 import "mapbox-gl/dist/mapbox-gl.css";
@@ -45,21 +54,41 @@ const MapContext = React.createContext();
 
 const MapBasic = () => {
   const [viewState, setViewState] = React.useState({
-    longitude: -122.4,
-    latitude: 37.8,
-    zoom: 14,
+    longitude: 151,
+    latitude: -33,
+    zoom: 3,
   });
-  const [centerMarker, setCenterMarker] = useState(false);
-  const [newLocation, setNewLocation] = useState([]);
+  const [marker, setMarker] = useState({
+    longitude: 0,
+    latitude: 0,
+    display: false,
+  });
 
-  useEffect(() => {
-    setCenterMarker(true);
-  }, [setNewLocation]);
+  const mapBox = useRef(null);
+  const markerCenter = useRef();
+  //   const onButtonClick = () => {
+  //     mapBox.current;
+  //   };
+  //   const onMarkerDrag = (lngLat) => {
+  //     console.log(lngLat);
+  //   };
+
+  //   const onDragEnd = (lngLat) => {
+  //     setMarker({ longitude: lngLat.lng, latitude: lngLat.lat });
+  //   };
+  //   const onDrag = () => {};
+
+  //   const onDragEnd = () => {
+  //     const markerElement = markerCenter.current;
+  //     const longLat = markerCenter.longitude;
+  //     console.log(markerElement.longitude);
+  //   };
 
   return (
     <>
       <MapProvider>
         <Map
+          ref={mapBox}
           id='map'
           {...viewState}
           onMove={(evt) => setViewState(evt.viewState)}
@@ -67,16 +96,32 @@ const MapBasic = () => {
           mapStyle='mapbox://styles/mapbox/outdoors-v11'
           mapboxAccessToken={MAPBOX_TOKEN}
         >
-          {centerMarker && (
-            <Marker longitude={-122.4} latitude={37.8} color='red' />
+          {marker.display && (
+            <Marker
+              ref={markerCenter}
+              longitude={marker.longitude}
+              latitude={marker.latitude}
+              color='red'
+              draggable
+              onDragEnd={(position) => {
+                console.log(position);
+                setMarker({
+                  longitude: position.lngLat.lng,
+                  latitude: position.lngLat.lat,
+                  display: true,
+                });
+              }}
+            />
           )}
           <GeolocateControl
+            positionOptions={{ enableHighAccuracy: true }}
             onGeolocate={(position) => {
               // get latitude and longitude of user current location
-              setNewLocation([
-                position.coords.longitude,
-                position.coords.latitude,
-              ]);
+              setMarker({
+                longitude: position.coords.longitude,
+                latitude: position.coords.latitude,
+                display: true,
+              });
             }}
           />
           <Source type='geojson' data={geojson}>
@@ -85,7 +130,7 @@ const MapBasic = () => {
         </Map>
       </MapProvider>
       <p>
-        new long: {newLocation[0]}, new lat: {newLocation[1]}
+        new long: {marker.longitude}, new lat: {marker.latitude}
       </p>
     </>
   );

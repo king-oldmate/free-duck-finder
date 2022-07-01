@@ -3,6 +3,7 @@ import MapBox from "./components/MapBox";
 import MapView from "./components/MapView";
 import ModernAPI from "./components/ModernAPI.jsx";
 import Map from "./components/Map";
+import DuckData from "./components/DuckData";
 // TO DO: get current location, show current location, build form and connect to backend, style, about page
 // TO ALSO DO: add rating system to duck ponds (accessibility, cleanliness, approachability??)
 
@@ -31,6 +32,7 @@ const App = () => {
         FREE* DUCK FINDER
       </h1>
       <Map />
+      <DuckData />
     </div>
   );
 };
