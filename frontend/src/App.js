@@ -1,11 +1,8 @@
 import React from "react";
-import MapBox from "./components/MapBox";
-import MapView from "./components/MapView";
-import ModernAPI from "./components/ModernAPI.jsx";
 import Map from "./components/Map";
-
-// TO DO: get current location, show current location, build form and connect to backend, style, about page
-// TO ALSO DO: add rating system to duck ponds (accessibility, cleanliness, approachability??)
+// DONE: get current location, show current location, build form (didn't need a form so watevs) and connect to backend,
+// TO DO:  style, controls, about page
+// TO ALSO DO: add rating system to duck ponds (accessibility, cleanliness, approachability??), remove geolocate marker after a few seconds
 
 // ABOUT: based off meme, this is essentially a locater for public duck ponds. add ones that you know about
 

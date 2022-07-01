@@ -2,28 +2,28 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 
 const DuckData = ({ coordinates }) => {
-  // GET request
-  const [data, setData] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  // // GET request
+  // const [data, setData] = useState(null);
+  // const [loading, setLoading] = useState(true);
+  // const [error, setError] = useState(null);
 
-  useEffect(() => {
-    const getData = async () => {
-      try {
-        const response = await axios.get(`http://localhost:5000/api/ducks`);
-        setData(response.data);
-        setError(null);
-      } catch (error) {
-        setError(error.message);
-        setData(null);
-      } finally {
-        setLoading(false);
-      }
-    };
-    getData();
-  }, []);
+  // useEffect(() => {
+  //   const getData = async () => {
+  //     try {
+  //       const response = await axios.get(`http://localhost:5000/api/ducks`);
+  //       setData(response.data);
+  //       setError(null);
+  //     } catch (error) {
+  //       setError(error.message);
+  //       setData(null);
+  //     } finally {
+  //       setLoading(false);
+  //     }
+  //   };
+  //   getData();
+  // }, []);
 
-  console.log(data);
+  // console.log(data);
 
   // POST request
   const [post, setPost] = useState(null);
@@ -50,19 +50,19 @@ const DuckData = ({ coordinates }) => {
   return (
     <div>
       <h1>Duck API</h1>
-      {loading && <div>A moment please...</div>}
+      {/* {loading && <div>A moment please...</div>}
       {error && (
         <div>{`There is a problem fetching the post data - ${error}`}</div>
       )}
       <ul>
         {data &&
-          data.map(({ location, _id, index }) => (
+          data.map(({ location, _id, index, lng, lat }) => (
             <li key={_id}>
-              <h3>{location.coordinates[0]}</h3>
-              <h3>{location.coordinates[1]}</h3>
+              <h3>{lng}</h3>
+              <h3>{lat}</h3>
             </li>
           ))}
-      </ul>
+      </ul> */}
       <button onClick={createPost}>Add current location?</button>
     </div>
   );

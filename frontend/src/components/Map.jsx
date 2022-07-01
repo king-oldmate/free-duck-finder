@@ -12,49 +12,73 @@ import Map, {
   Source,
   Layer,
   Marker,
-  useMap,
   MapProvider,
   GeolocateControl,
-  MarkerDragEvent,
-  LngLat,
 } from "react-map-gl";
+import axios from "axios";
 
 import "mapbox-gl/dist/mapbox-gl.css";
 
+import Pin from "./Pin";
+
 import DuckData from "./DuckData";
+
+// import { GeoJSON } from "geojson";
 
 const MAPBOX_TOKEN = process.env.REACT_APP_TOKEN;
 
-const geojson = {
-  type: "FeatureCollection",
-  features: [
-    {
-      type: "Feature",
-      geometry: { type: "Point", coordinates: [-122.4, 37.8] },
-    },
-    {
-      type: "Feature",
-      geometry: { type: "Point", coordinates: [-122.5, 37.8] },
-    },
-    {
-      type: "Feature",
-      geometry: { type: "Point", coordinates: [-122.6, 37.6] },
-    },
-  ],
-};
+// const geojson = {
+//   type: "FeatureCollection",
+//   features: [
+//     {
+//       type: "Feature",
+//       geometry: { type: "Point", coordinates: [-122.4, 37.8] },
+//     },
+//     {
+//       type: "Feature",
+//       geometry: { type: "Point", coordinates: [-122.5, 37.8] },
+//     },
+//     {
+//       type: "Feature",
+//       geometry: { type: "Point", coordinates: [-122.6, 37.6] },
+//     },
+//   ],
+// };
 
-const layerStyle = {
-  id: "point",
-  type: "circle",
-  paint: {
-    "circle-radius": 10,
-    "circle-color": "#007cbf",
-  },
-};
+// const layerStyle = {
+//   id: "point",
+//   type: "circle",
+//   paint: {
+//     "circle-radius": 10,
+//     "circle-color": "#007cbf",
+//   },
+// };
 
 const MapContext = React.createContext();
 
 const MapBasic = () => {
+  // GET request
+  const [data, setData] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const getData = async () => {
+      try {
+        const response = await axios.get(`http://localhost:5000/api/ducks`);
+        setData(response.data);
+        setError(null);
+      } catch (error) {
+        setError(error.message);
+        setData(null);
+      } finally {
+        setLoading(false);
+      }
+    };
+    getData();
+    console.log(data);
+  }, []);
+
   const [viewState, setViewState] = React.useState({
     longitude: 151,
     latitude: -33,
@@ -68,6 +92,17 @@ const MapBasic = () => {
 
   const mapBox = useRef(null);
   const markerCenter = useRef();
+
+  // const pins = useMemo(() => {
+  //   data.map((pond) => {
+  //     const { _id, lng, lat } = pond;
+  //     return (
+  //       <Marker key={_id} longitude={lng} latitude={lat} anchor='bottom'>
+  //         <Pin />
+  //       </Marker>
+  //     );
+  //   });
+  // }, []);
 
   return (
     <>
@@ -109,9 +144,15 @@ const MapBasic = () => {
               });
             }}
           />
-          <Source type='geojson' data={geojson}>
+          {data &&
+            data.map(({ _id, lng, lat }) => (
+              <Marker key={_id} longitude={lng} latitude={lat} anchor='bottom'>
+                <Pin />
+              </Marker>
+            ))}
+          {/* <Source type='geojson' data={data}>
             <Layer {...layerStyle} />
-          </Source>
+          </Source> */}
         </Map>
       </MapProvider>
       <p>

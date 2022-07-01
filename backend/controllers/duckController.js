@@ -19,16 +19,28 @@ const setDuck = asyncHandler(async (req, res) => {
     res.status(400);
     throw new Error("Please specify a location ");
   }
-  console.log(req.body.longitude);
-  console.log(req.body.latitude);
   const duck = await Duck.create({
-    location: {
-      type: "Point",
-      coordinates: [req.body.longitude, req.body.latitude],
-    },
+    lng: req.body.longitude,
+    lat: req.body.latitude,
   });
   res.status(200).json(duck);
 });
+
+// const setDuck = asyncHandler(async (req, res) => {
+//   if (!req.body.longitude || !req.body.latitude) {
+//     res.status(400);
+//     throw new Error("Please specify a location ");
+//   }
+//   console.log(req.body.longitude);
+//   console.log(req.body.latitude);
+//   const duck = await Duck.create({
+//     location: {
+//       type: "Point",
+//       coordinates: [req.body.longitude, req.body.latitude],
+//     },
+//   });
+//   res.status(200).json(duck);
+// });
 
 // @desc    set duck
 // @route   PUT /api/ducks/:id
