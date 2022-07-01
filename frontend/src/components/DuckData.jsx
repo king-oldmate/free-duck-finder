@@ -63,7 +63,12 @@ const DuckData = ({ coordinates }) => {
             </li>
           ))}
       </ul> */}
-      <button onClick={createPost}>Add current location?</button>
+      <button
+        onClick={createPost}
+        className='px-6 py-1 mx-auto rounded-md bg-duck-yellow w-fit hover:shadow-lg'
+      >
+        Add current location?
+      </button>
     </div>
   );
 };

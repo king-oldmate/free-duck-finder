@@ -90,9 +90,6 @@ const MapBasic = () => {
     display: false,
   });
 
-  const mapBox = useRef(null);
-  const markerCenter = useRef();
-
   // const pins = useMemo(() => {
   //   data.map((pond) => {
   //     const { _id, lng, lat } = pond;
@@ -102,59 +99,65 @@ const MapBasic = () => {
   //       </Marker>
   //     );
   //   });
-  // }, []);
+  // }, [])
 
   return (
     <>
-      <MapProvider>
-        <Map
-          ref={mapBox}
-          id='map'
-          {...viewState}
-          onMove={(evt) => setViewState(evt.viewState)}
-          style={{ width: 800, height: 600 }}
-          mapStyle='mapbox://styles/mapbox/outdoors-v11'
-          mapboxAccessToken={MAPBOX_TOKEN}
-        >
-          {marker.display && (
-            <Marker
-              ref={markerCenter}
-              longitude={marker.longitude}
-              latitude={marker.latitude}
-              color='red'
-              draggable
-              onDragEnd={(position) => {
-                console.log(position);
+      <div className='mx-5 overflow-hidden rounded-lg'>
+        <MapProvider>
+          <Map
+            id='map'
+            {...viewState}
+            onMove={(evt) => setViewState(evt.viewState)}
+            style={{ width: "100%", height: 600 }}
+            mapStyle='mapbox://styles/mapbox/outdoors-v11'
+            mapboxAccessToken={MAPBOX_TOKEN}
+          >
+            {marker.display && (
+              <Marker
+                longitude={marker.longitude}
+                latitude={marker.latitude}
+                color='red'
+                draggable
+                onDragEnd={(position) => {
+                  setMarker({
+                    longitude: position.lngLat.lng,
+                    latitude: position.lngLat.lat,
+                    display: true,
+                  });
+                }}
+              />
+            )}
+            <GeolocateControl
+              showUserLocation={false}
+              positionOptions={{ enableHighAccuracy: true }}
+              onGeolocate={(position) => {
+                // get latitude and longitude of user current location
                 setMarker({
-                  longitude: position.lngLat.lng,
-                  latitude: position.lngLat.lat,
+                  longitude: position.coords.longitude,
+                  latitude: position.coords.latitude,
                   display: true,
                 });
               }}
             />
-          )}
-          <GeolocateControl
-            positionOptions={{ enableHighAccuracy: true }}
-            onGeolocate={(position) => {
-              // get latitude and longitude of user current location
-              setMarker({
-                longitude: position.coords.longitude,
-                latitude: position.coords.latitude,
-                display: true,
-              });
-            }}
-          />
-          {data &&
-            data.map(({ _id, lng, lat }) => (
-              <Marker key={_id} longitude={lng} latitude={lat} anchor='bottom'>
-                <Pin />
-              </Marker>
-            ))}
-          {/* <Source type='geojson' data={data}>
+            {data &&
+              data.map(({ _id, lng, lat }) => (
+                <Marker
+                  key={_id}
+                  longitude={lng}
+                  latitude={lat}
+                  anchor='bottom'
+                >
+                  <Pin />
+                </Marker>
+              ))}
+            {/* <Source type='geojson' data={data}>
             <Layer {...layerStyle} />
           </Source> */}
-        </Map>
-      </MapProvider>
+          </Map>
+        </MapProvider>
+      </div>
+
       <p>
         new long: {marker.longitude}, new lat: {marker.latitude}
       </p>
