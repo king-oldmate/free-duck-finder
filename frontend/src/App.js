@@ -29,7 +29,7 @@ const App = () => {
           </svg>
           FREE* DUCK FINDER
         </h1>
-        <p className='font-bold uppercase'>
+        <p className='ml-3 font-bold uppercase -indent-3.5'>
           * Do not take things that don't belong to you (it's usually illegal)
           and besides this whole website is based off a joke. Feel free to
           contribute more places

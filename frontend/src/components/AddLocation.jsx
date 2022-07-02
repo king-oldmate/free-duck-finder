@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 
-const DuckData = ({ coordinates }) => {
+const AddLocation = ({ coordinates }) => {
   // // GET request
   // const [data, setData] = useState(null);
   // const [loading, setLoading] = useState(true);
@@ -63,8 +63,10 @@ const DuckData = ({ coordinates }) => {
             </li>
           ))}
       </ul> */}
+      {/* check if geolocation has been used (probs lng and lat !== 0). Keep button grayed out till then*/}
       <button
         onClick={createPost}
+        // {disabled}
         className='px-6 py-1 mx-auto rounded-md bg-duck-yellow w-fit hover:shadow-lg'
       >
         Add current location?
@@ -73,4 +75,4 @@ const DuckData = ({ coordinates }) => {
   );
 };
 
-export default DuckData;
+export default AddLocation;

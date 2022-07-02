@@ -20,8 +20,9 @@ import axios from "axios";
 import "mapbox-gl/dist/mapbox-gl.css";
 
 import Pin from "./Pin";
+import duckMarker from "./duckMarker.png";
 
-import DuckData from "./DuckData";
+import AddLocation from "./AddLocation";
 
 // import { GeoJSON } from "geojson";
 
@@ -76,7 +77,6 @@ const MapBasic = () => {
       }
     };
     getData();
-    console.log(data);
   }, []);
 
   const [viewState, setViewState] = React.useState({
@@ -148,7 +148,7 @@ const MapBasic = () => {
                   latitude={lat}
                   anchor='bottom'
                 >
-                  <Pin />
+                  <img src={duckMarker} className='w-1/3 ' />
                 </Marker>
               ))}
             {/* <Source type='geojson' data={data}>
@@ -161,7 +161,7 @@ const MapBasic = () => {
       <p>
         new long: {marker.longitude}, new lat: {marker.latitude}
       </p>
-      <DuckData coordinates={marker} />
+      <AddLocation coordinates={marker} />
     </>
   );
 };
