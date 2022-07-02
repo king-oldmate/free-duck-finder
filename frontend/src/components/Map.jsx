@@ -14,6 +14,7 @@ import Map, {
   Marker,
   MapProvider,
   GeolocateControl,
+  Popup,
 } from "react-map-gl";
 import axios from "axios";
 
@@ -89,7 +90,6 @@ const MapBasic = () => {
     latitude: 0,
     display: false,
   });
-  const [enableAddLocation, setEnableAddLocation] = useState(false);
 
   // const pins = useMemo(() => {
   //   data.map((pond) => {
@@ -129,6 +129,11 @@ const MapBasic = () => {
                 }}
               />
             )}
+            {loading && (
+              <Popup longitude='151' latitude='-33' color='blue'>
+                Loading...
+              </Popup>
+            )}
             <GeolocateControl
               showUserLocation={false}
               positionOptions={{ enableHighAccuracy: true }}
@@ -140,7 +145,6 @@ const MapBasic = () => {
                   display: true,
                 });
               }}
-              onClick={() => setEnableAddLocation(true)}
             />
             {data &&
               data.map(({ _id, lng, lat }) => (
