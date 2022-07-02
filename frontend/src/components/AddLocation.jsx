@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 
-const AddLocation = ({ coordinates }) => {
+const AddLocation = ({ coordinates, enableAddLocation }) => {
   // // GET request
   // const [data, setData] = useState(null);
   // const [loading, setLoading] = useState(true);
@@ -35,6 +35,7 @@ const AddLocation = ({ coordinates }) => {
   }, []);
 
   function createPost() {
+    console.log(coordinates);
     // https://github.com/axios/axios#using-applicationx-www-form-urlencoded-format
     const location = new URLSearchParams({
       longitude: coordinates.longitude,
@@ -64,10 +65,11 @@ const AddLocation = ({ coordinates }) => {
           ))}
       </ul> */}
       {/* check if geolocation has been used (probs lng and lat !== 0). Keep button grayed out till then*/}
+
       <button
         onClick={createPost}
-        // {disabled}
-        className='px-6 py-1 mx-auto rounded-md bg-duck-yellow w-fit hover:shadow-lg'
+        disabled={coordinates.display ? false : true}
+        className='px-6 py-1 mx-auto rounded-md bg-duck-yellow w-fit hover:shadow-lg disabled:bg-slate-400'
       >
         Add current location?
       </button>

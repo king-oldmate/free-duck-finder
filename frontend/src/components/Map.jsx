@@ -89,6 +89,7 @@ const MapBasic = () => {
     latitude: 0,
     display: false,
   });
+  const [enableAddLocation, setEnableAddLocation] = useState(false);
 
   // const pins = useMemo(() => {
   //   data.map((pond) => {
@@ -139,6 +140,7 @@ const MapBasic = () => {
                   display: true,
                 });
               }}
+              onClick={() => setEnableAddLocation(true)}
             />
             {data &&
               data.map(({ _id, lng, lat }) => (
@@ -159,7 +161,8 @@ const MapBasic = () => {
       </div>
 
       <p>
-        new long: {marker.longitude}, new lat: {marker.latitude}
+        new long: {marker.longitude}, new lat: {marker.latitude}, button state:{" "}
+        {marker.display.toString()}
       </p>
       <AddLocation coordinates={marker} />
     </>
