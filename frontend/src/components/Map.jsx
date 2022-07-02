@@ -160,11 +160,11 @@ const MapBasic = () => {
         </MapProvider>
       </div>
 
-      <p>
+      <p className='hidden'>
         new long: {marker.longitude}, new lat: {marker.latitude}, button state:{" "}
         {marker.display.toString()}
       </p>
-      <AddLocation coordinates={marker} />
+      <AddLocation marker={marker} setMarker={setMarker} />
     </>
   );
 };

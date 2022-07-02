@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 
-const AddLocation = ({ coordinates, enableAddLocation }) => {
+const AddLocation = ({ marker, setMarker }) => {
   // // GET request
   // const [data, setData] = useState(null);
   // const [loading, setLoading] = useState(true);
@@ -35,22 +35,22 @@ const AddLocation = ({ coordinates, enableAddLocation }) => {
   }, []);
 
   function createPost() {
-    console.log(coordinates);
+    console.log(marker);
     // https://github.com/axios/axios#using-applicationx-www-form-urlencoded-format
     const location = new URLSearchParams({
-      longitude: coordinates.longitude,
-      latitude: coordinates.latitude,
+      longitude: marker.longitude,
+      latitude: marker.latitude,
     });
     console.log(location);
     location.append("extraparam", "value");
     axios.post(`http://localhost:5000/api/ducks`, location).then((response) => {
       console.log(response);
     });
+    setMarker({ display: false });
   }
 
   return (
-    <div>
-      <h1>Duck API</h1>
+    <div className='flex justify-center m-5'>
       {/* {loading && <div>A moment please...</div>}
       {error && (
         <div>{`There is a problem fetching the post data - ${error}`}</div>
@@ -68,7 +68,7 @@ const AddLocation = ({ coordinates, enableAddLocation }) => {
 
       <button
         onClick={createPost}
-        disabled={coordinates.display ? false : true}
+        disabled={marker.display ? false : true}
         className='px-6 py-1 mx-auto rounded-md bg-duck-yellow w-fit hover:shadow-lg disabled:bg-slate-400'
       >
         Add current location?
