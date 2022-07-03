@@ -39,6 +39,7 @@ const MapComponent = () => {
 
   // geoLocation
   const [location, setLocation] = useState(null);
+  const [findLocation, setFindLocation] = useState(false);
 
   const Location = () => {
     const map = useMap();
@@ -55,34 +56,29 @@ const MapComponent = () => {
 
     return position ? (
       <>
-        <Circle
-          center={position}
-          weight={2}
-          color={"red"}
-          fillColor={"red"}
-          fillOpacity={0.1}
-          radius={500}
-        ></Circle>
-        <Marker position={position}>
-          <Popup>You are here</Popup>
+        <Marker position={position} draggable autoPan>
+          <Popup>Submit or drag to your location.</Popup>
         </Marker>
       </>
     ) : null;
   };
 
   return (
-    <MapContainer center={center} zoom={12} scrollWheelZoom={true}>
-      <Location />
-      {data &&
-        data.map(({ _id, lng, lat }) => (
-          <Marker key={_id} position={[lat, lng]} icon={duckIcon}></Marker>
-        ))}
+    <>
+      <MapContainer center={center} zoom={12} scrollWheelZoom={true}>
+        {findLocation && <Location />}
+        {data &&
+          data.map(({ _id, lng, lat }) => (
+            <Marker key={_id} position={[lat, lng]} icon={duckIcon}></Marker>
+          ))}
 
-      <TileLayer
-        url='https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
-        attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-      />
-    </MapContainer>
+        <TileLayer
+          url='https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
+          attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+        />
+      </MapContainer>
+      <button onClick={() => setFindLocation(true)}>Submit a location</button>
+    </>
   );
 };
 
