@@ -4,17 +4,16 @@ import {
   TileLayer,
   Popup,
   Marker,
-  useMapEvents,
   useMap,
+  Circle,
 } from "react-leaflet";
-import { useGeolocated } from "react-geolocated";
 import L, { latLng } from "leaflet";
 import axios from "axios";
 import { duckIcon } from "./duckIcon";
 
-const MapComponent = () => {
-  console.log(latLng);
+const center = [-33, 151];
 
+const MapComponent = () => {
   // GET request
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -39,28 +38,41 @@ const MapComponent = () => {
   }, []);
 
   // geoLocation
-  const [location, setLocation] = useState({
-    lat: -33,
-    lng: 151,
-  });
+  const [location, setLocation] = useState(null);
 
-  const { coords, isGeolocationAvailable, isGeolocationEnabled } =
-    useGeolocated({
-      positionOptions: {
-        enableHighAccuracy: false,
-      },
-      userDecisionTimeout: 5000,
-    });
+  const Location = () => {
+    const map = useMap();
+    const [position, setPosition] = useState(null);
 
-  console.log(coords);
+    useEffect(() => {
+      map.locate({
+        setView: true,
+      });
+      map.on("locationfound", (event) => {
+        setPosition(event.latlng);
+      });
+    }, [map]);
+
+    return position ? (
+      <>
+        <Circle
+          center={position}
+          weight={2}
+          color={"red"}
+          fillColor={"red"}
+          fillOpacity={0.1}
+          radius={500}
+        ></Circle>
+        <Marker position={position}>
+          <Popup>You are here</Popup>
+        </Marker>
+      </>
+    ) : null;
+  };
 
   return (
-    <MapContainer
-      center={[location.lat, location.lng]}
-      zoom={12}
-      scrollWheelZoom={true}
-    >
-      <Marker key={"1"} position={[location.lat, location.lng]} draggable />
+    <MapContainer center={center} zoom={12} scrollWheelZoom={true}>
+      <Location />
       {data &&
         data.map(({ _id, lng, lat }) => (
           <Marker key={_id} position={[lat, lng]} icon={duckIcon}></Marker>
