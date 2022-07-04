@@ -44,10 +44,50 @@ const MapComponent = () => {
   // this hides the location component when false
   const [findLocation, setFindLocation] = useState(false);
 
+  const CustomButton = () => {
+    const [buttonDisplay, setButtonDisplay] = useState(false);
+    const map = useMap();
+    useEffect(() => {
+      if (!map) return;
+
+      const customControler = L.Control.extend({
+        options: {
+          position: "topright",
+        },
+
+        onAdd: function () {
+          const btn = L.DomUtil.create("button");
+          btn.title = "pooooooooooooop rotation";
+          btn.textContent = "Find your location";
+          btn.className = "customButton";
+
+          btn.onmouseover = function () {
+            this.style.transform = "scale(1.3)";
+          };
+
+          btn.onmouseout = function () {
+            this.style.transform = "scale(1)";
+          };
+
+          btn.onclick = function () {
+            setFindLocation(true);
+          };
+
+          return btn;
+        },
+      });
+
+      map.addControl(new customControler());
+    }, []);
+
+    return null;
+  };
+
   return (
     <div className='relative'>
       <div className='absolute h-40 bg-white'>Test</div>
       <MapContainer center={center} zoom={12} scrollWheelZoom={true}>
+        {/* <CustomButton /> */}
         {findLocation && (
           <Location position={position} setPosition={setPosition} />
         )}
@@ -65,6 +105,7 @@ const MapComponent = () => {
         />
       </MapContainer>
       <button onClick={() => setFindLocation(true)}>Submit a location</button>
+      {/* This button allows the Location component to be rendered, which then runs the Geolocation method and places a marker.  */}
       {position && (
         <p>
           {position.lat}, {position.lng}

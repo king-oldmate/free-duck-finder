@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Popup, Marker, useMap, Circle } from "react-leaflet";
+import { Popup, Marker, useMap, Circle, Tooltip } from "react-leaflet";
 import L, { latLng } from "leaflet";
 import axios from "axios";
 
@@ -48,9 +48,11 @@ const Location = ({ position, setPosition }) => {
         <Popup>
           <button onClick={() => AddLocation(position)}>
             Add this location
-          </button>{" "}
-          or drag marker to choose.
+          </button>
         </Popup>
+        <Tooltip permanent>
+          Click to add this location, or drag to change its position
+        </Tooltip>
       </Marker>
     </>
   ) : null;
