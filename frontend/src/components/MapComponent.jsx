@@ -39,19 +39,21 @@ const MapComponent = () => {
   }, []);
 
   // geoLocation
-  const [location, setLocation] = useState(null);
+  // position is found using Location component, data will be stored in an object with lat and lng keys
+  const [position, setPosition] = useState(null);
+  // this hides the location component when false
   const [findLocation, setFindLocation] = useState(false);
 
-  const [position, setPosition] = useState(null);
-
   return (
-    <>
+    <div className='relative'>
+      <div className='absolute h-40 bg-white'>Test</div>
       <MapContainer center={center} zoom={12} scrollWheelZoom={true}>
         {findLocation && (
           <Location position={position} setPosition={setPosition} />
         )}
         {
           // map through coord data from API
+          // TODO: use GeoJSON instead when I'm bothered
           data &&
             data.map(({ _id, lng, lat }) => (
               <Marker key={_id} position={[lat, lng]} icon={duckIcon}></Marker>
@@ -68,7 +70,7 @@ const MapComponent = () => {
           {position.lat}, {position.lng}
         </p>
       )}
-    </>
+    </div>
   );
 };
 
