@@ -12,7 +12,7 @@ import axios from "axios";
 import { duckIcon } from "./duckIcon";
 import Location from "./Location";
 
-const center = [-33, 151];
+const center = [-33.8688197, 151.2092955];
 
 const MapComponent = () => {
   // GET request
@@ -85,7 +85,16 @@ const MapComponent = () => {
 
   return (
     <div className='relative'>
-      <div className='absolute h-40 bg-white'>Test</div>
+      <div className='mb-5 text-center'>
+        To submit a location,{" "}
+        <button
+          className='px-3 pt-2 pb-1 rounded-md bg-duck-yellow'
+          onClick={() => setFindLocation(true)}
+        >
+          click here
+        </button>{" "}
+        and allow location permissions in your browser.
+      </div>
       <MapContainer center={center} zoom={12} scrollWheelZoom={true}>
         {/* <CustomButton /> */}
         {findLocation && (
@@ -104,13 +113,13 @@ const MapComponent = () => {
           attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
         />
       </MapContainer>
-      <button onClick={() => setFindLocation(true)}>Submit a location</button>
       {/* This button allows the Location component to be rendered, which then runs the Geolocation method and places a marker.  */}
-      {position && (
+
+      {/* {position && (
         <p>
           {position.lat}, {position.lng}
         </p>
-      )}
+      )} */}
     </div>
   );
 };

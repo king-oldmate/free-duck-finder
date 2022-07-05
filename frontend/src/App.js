@@ -3,10 +3,10 @@ import MapComponent from "./components/MapComponent";
 
 function App() {
   return (
-    <div className='h-screen bg-sky-50 text-stone-800'>
-      <header className='gap-3 pt-10 mx-5 mb-5 sm:flex'>
+    <div className='h-screen bg-sky-50 text-stone-800 font-heading'>
+      <header className='max-w-5xl gap-3 px-5 pt-10 mx-auto mb-5 sm:flex'>
         {" "}
-        <h1 className='text-3xl font-bold shrink-0'>
+        <h1 className='text-4xl font-black tracking-[-0.07em] shrink-0'>
           <svg
             xmlns='http://www.w3.org/2000/svg'
             aria-hidden='true'
@@ -25,7 +25,7 @@ function App() {
           </svg>
           FREE* DUCK FINDER
         </h1>
-        <p className='ml-4 font-bold uppercase -indent-3.5'>
+        <p className='ml-4 -indent-3.5'>
           * Do not take things that don't belong to you (it's usually illegal)
           and besides this whole website is based off a joke. Feel free to
           contribute more places
@@ -34,6 +34,18 @@ function App() {
       <main className='mx-5 overflow-hidden rounded-lg'>
         <MapComponent />
       </main>
+      <footer className='max-w-5xl px-5 mx-auto mt-5 text-sm text-center'>
+        The only personal data stored is your location data. All stored data can
+        be viewed at {""}
+        <a
+          href='https://free-duck-finder.herokuapp.com/api/ducks'
+          target='_blank'
+          className='hover:font-bold'
+        >
+          Free Duck Finder API
+        </a>
+        .
+      </footer>
     </div>
   );
 }

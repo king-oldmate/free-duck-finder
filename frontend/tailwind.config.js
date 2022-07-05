@@ -6,6 +6,9 @@ module.exports = {
       colors: {
         "duck-yellow": "#FFD801",
       },
+      fontFamily: {
+        heading: ["Martel Sans", "sans-serif"],
+      },
     },
   },
   plugins: [],
