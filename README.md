@@ -13,7 +13,7 @@ A MERN full-stack web application to help users find local free\* ducks.
 
 ![Preview](/img/fdf-full.jpg)
 
-I wanted to make a full-stack web app for my [portfolio](http://raymond-zeaiter.au) and didn't want to just make another to-do list. So I built something based upon this joke I saw:
+I wanted to make a full-stack web app for my portfolio and didn't want to just make another to-do list. So I built something based upon this joke I saw:
 
 ![The elites don't want you to know this but the ducks at the part are free you can take them home I have 458 ducks](/img/meme.png)
 
